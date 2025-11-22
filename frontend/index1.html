@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERSECURE: Network Intrusion Triage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div> <!-- Particle background -->
+    
+    <!-- Top Navbar -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <h1><i class="fas fa-shield-alt glow"></i> CYBERSECURE</h1>
+            <ul>
+                <li style="--i: 1;"><a href="#login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li style="--i: 2;"><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li style="--i: 3;"><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li style="--i: 4;"><a href="tutorial.html"><i class="fas fa-book"></i> Tutorial</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <!-- Left Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <h1><i class="fas fa-lock glow"></i></h1>
+        <ul>
+            <li style="--i: 1;"><a href="#upload"><i class="fas fa-upload"></i> Upload</a></li>
+            <li style="--i: 2;"><a href="#report"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            <li style="--i: 3;"><a href="#blockchain"><i class="fas fa-link"></i> Blockchain</a></li>
+            <li style="--i: 4;"><a href="#simulation"><i class="fas fa-play"></i> Simulation</a></li>
+            <li style="--i: 5;"><a href="#explanation"><i class="fas fa-brain"></i> Explanation</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="upload" class="section-glow">
+            <h2>Upload Network Data File</h2>
+            <input type="file" id="fileInput" accept=".csv,.txt,.json">
+            <button id="uploadBtn" class="btn-glow">Upload and Process</button>
+            <div class="scrollmenu">
+            <div id="segregatedDataContainer" style="display: none;">
+                <h3>Segregated Extracted Data (First 10 Rows)</h3>
+                <table id="segregatedTable">
+                    <thead id="segregatedTableHead"></thead>
+                    <tbody id="segregatedTableBody"></tbody>
+                </table>
+            </div>
+            </div>
+        </section>
+<!-- chat bot strrat -->
+     <!-- Chatbot Icon -->
+        <div class="chatbot-icon" id="chatbotIcon">
+            <i class="fas fa-robot"></i>
+        </div>
+    </footer>
+    
+     <div class="chatbot-portal" id="chatbotPortal">
+        <div class="chat-header">
+            <span>CYBERSECURE Chatbot</span>
+            <button class="close-btn" id="closeChat">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">Welcome to CYBERSECURE! How can I assist with network intrusion triage?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type your message...">
+            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+ <!-- chatt bot enf -->
+        <section id="report" class="section-glow">
+            <h2>Load Data Report</h2>
+            <button id="loadReportBtn" class="btn-glow">Generate Report</button>
+            <div id="reportContent">
+                <h3>Data Summary</h3>
+                <p id="summaryText"></p>
+                <div class="chart-container">
+                    <canvas id="pieChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="barChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </section>
+
+       <section id="blockchain" class="section-glow">
+    <h2>Blockchain Report</h2>
+    <button id="verifyChainBtn" class="btn-glow">Verify Chain Integrity</button>
+    <div id="blockchainTableWrapper" style="max-height: 120px; overflow-y: auto; border: 2px solid #00ff00; margin-top: 10px;">
+        <table id="blockchainTable">
+            <thead>
+                <tr>
+                    <th>Entry</th>
+                    <th>Hash</th>
+                    <th>Prev Hash</th>
+                    <th>Valid</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</section>
+
+        <section id="simulation" class="section-glow">
+            <h2>Real-Time Flow Simulation</h2>
+            <button id="simulateBtn" class="btn-glow">Start Simulation</button>
+            <div id="simulationResults"></div>
+        </section>
+
+        <section id="explanation" class="section-glow">
+            <h2>XAI Explanation (SHAP)</h2>
+            <input type="text" id="flowInput" placeholder="Enter 41 flow features (comma-separated)" value="0,1,45,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,123,6,1.0,1.0,0.0,0.0,0.05,0.07,0.0,255,26,0.10,0.05,0.0,0.0,1.0,1.0,0.0,0.0">
+            <button id="explainBtn" class="btn-glow">Explain Prediction</button>
+            <div id="explanationResults"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 CYBERSECURE. All rights reserved. | Powered by AI/ML for Network Security</p>
+        
+        <!-- Drop Container -->
+        
+        
+    
+    <script src="script.js"></script>
+</body>
+</html>
