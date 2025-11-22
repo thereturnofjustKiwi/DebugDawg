@@ -5,6 +5,13 @@ from sklearn.metrics import (
     classification_report, confusion_matrix,
     recall_score, precision_score, f1_score, accuracy_score, roc_auc_score
 )
+import joblib
+import numpy as np
+from xgboost import XGBClassifier
+from sklearn.metrics import (
+    classification_report, confusion_matrix, recall_score, accuracy_score
+)
+
 
 def evaluate(y_true, y_pred, y_proba, name):
     acc = accuracy_score(y_true, y_pred)
@@ -34,37 +41,29 @@ if __name__ == "__main__":
     X_tr = joblib.load("data/processed_unsw/X_train.pkl")
     X_val = joblib.load("data/processed_unsw/X_val.pkl")
     X_tst = joblib.load("data/processed_unsw/X_test.pkl")
-    y_tr = np.load("data/processed_unsw/y_train.npy")
-    y_val = np.load("data/processed_unsw/y_val.npy")
-    y_tst = np.load("data/processed_unsw/y_test.npy")
+    y_tr_attack = np.load("data/processed_unsw/y_train_attack.npy")
+    y_val_attack = np.load("data/processed_unsw/y_val_attack.npy")
+    y_tst_attack = np.load("data/processed_unsw/y_test_attack.npy")
+    le = joblib.load("models/unsw_attack_cat_le.pkl")
 
-    print(f"Train: {X_tr.shape}  Val: {X_val.shape}  Test: {X_tst.shape}")
-
-    # Class weight amplification for recall
-    neg, pos = (y_tr==0).sum(), (y_tr==1).sum()
-    spw = max(1.0, neg/pos) * 5.0
-
-    model = XGBClassifier(
-        n_estimators=400, max_depth=6, learning_rate=0.08,
+    # Train multiclass XGBoost
+    model_attack = XGBClassifier(
+        n_estimators=250, max_depth=6, learning_rate=0.10,
         subsample=0.85, colsample_bytree=0.85, min_child_weight=4,
-        reg_lambda=1.0, scale_pos_weight=spw, eval_metric="logloss",
+        reg_lambda=1.0, objective='multi:softprob',
+        num_class=len(le.classes_),
         n_jobs=-1, random_state=42
     )
-    model.fit(X_tr, y_tr)
-    print(f"✅ Trained XGBoost with scale_pos_weight={spw:.2f}")
+    model_attack.fit(X_tr, y_tr_attack)
+    print("✅ Multiclass attack_cat XGBoost trained.")
 
-    # Validation tuning (recall-first)
-    val_proba = model.predict_proba(X_val)[:,1]
-    thr = recall_first_threshold(y_val, val_proba, recall_floor=0.97)
+    # Evaluate
+    val_pred_attack = np.argmax(model_attack.predict_proba(X_val), axis=1)
+    print("\nVAL:")
+    print(classification_report(y_val_attack, val_pred_attack, target_names=le.classes_))
 
-    # Evaluate on val and test
-    val_pred = (val_proba >= thr).astype(int)
-    evaluate(y_val, val_pred, val_proba, "VAL")
+    tst_pred_attack = np.argmax(model_attack.predict_proba(X_tst), axis=1)
+    print("\nTEST:")
+    print(classification_report(y_tst_attack, tst_pred_attack, target_names=le.classes_))
 
-    tst_proba = model.predict_proba(X_tst)[:,1]
-    tst_pred  = (tst_proba >= thr).astype(int)
-    evaluate(y_tst, tst_pred, tst_proba, "TEST")
-
-    # Persist model + threshold + preprocessor
-    joblib.dump({"model": model, "threshold": thr}, "models/unsw_trained_model.pkl")
-    print("💾 Saved to models/unsw_trained_model.pkl")
+    joblib.dump(model_attack, "models/unsw_attack_cat_xgb.pkl")
