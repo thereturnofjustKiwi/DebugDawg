@@ -1,0 +1,31 @@
+{
+  "log_id": "TL-2025112211580001",
+  "timestamp": "2025-11-22T11:58:30.123456",
+  "flow_metadata": {
+    "src_ip": "192.168.1.105",
+    "dst_ip": "203.0.113.45",
+    "src_port": 54321,
+    "dst_port": 80,
+    "protocol": "TCP",
+    "flow_id": "192.168.1.105:54321->203.0.113.45:80"
+  },
+  "classification": {
+    "prediction": "INTRUSION",
+    "attack_type": "DDoS",
+    "confidence_score": 0.967
+  },
+  "security_action": {
+    "action": "BLOCK Source IP + Rate Limit",
+    "priority": "CRITICAL",
+    "auto_executed": true,
+    "execution_timestamp": "2025-11-22T11:58:31.000000"
+  },
+  "network_features": {
+    "destination_port": 80,
+    "flow_duration": 120543,
+    "total_fwd_packets": 342,
+    "flow_bytes_per_sec": 45231.5,
+    "flow_packets_per_sec": 234.8,
+    "fwd_packet_length_mean": 1342.7
+  }
+}

@@ -1,0 +1,745 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Fira Code', 'Courier New', monospace; /* Monospace for CMD vibe */
+    background: #000000; /* Pure black for terminal feel */
+    color: #00ff00; /* Bright green text */
+    margin: 0;
+    padding: 0;
+    line-height: 1.4; /* Tighter for terminal style */
+    animation: fadeIn 1s ease-in;
+    text-shadow: 0 0 3px #00ff00; /* Reduced glow from 5px */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+/* Background Particles Container */
+#particles-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Doesn't interfere with clicks */
+    z-index: -1; /* Behind everything */
+    overflow: hidden;
+}
+
+/* Individual Particle Styles */
+.particle {
+    position: absolute;
+    background: #00ff00;
+    border-radius: 50%;
+    opacity: 0.7;
+    box-shadow: 0 0 3px #00ff00; /* Reduced glow */
+    animation: float 10s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* Cursor Particles Canvas */
+#cursor-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999; /* Above UI */
+}
+
+/* Top Navbar */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95); /* Black with slight transparency */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 0.1); /* Reduced glow from 0.3 */
+    z-index: 1001;
+    padding: 15px 20px;
+    animation: slideDown 0.8s ease-out;
+    border-bottom: 2px solid #00ff00; /* Green border for terminal window effect */
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+.top-nav .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.top-nav h1 {
+    color: #00ff00; /* Green logo */
+    font-size: 1.8em;
+    font-weight: 700;
+    text-shadow: 0 0 5px #00ff00; /* Kept for logo, but reduced elsewhere */
+}
+
+.top-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.top-nav li {
+    margin: 0 20px;
+    animation: fadeInUp 0.6s ease-out both;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+.top-nav a {
+    color: #00ff00;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    border-radius: 0; /* Sharp edges for CMD feel */
+    cursor: pointer;
+    font-weight: 500;
+    text-shadow: 0 0 3px #00ff00; /* Reduced glow */
+}
+
+.top-nav a:hover {
+    background: rgba(0, 255, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 5px #00ff00; /* Reduced glow */
+    transform: scale(1.05);
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #00ff00;
+}
+
+/* Left Sidebar */
+nav.sidebar {
+    position: fixed;
+    left: 0;
+    top: 80px;
+    height: calc(100vh - 80px);
+    width: 280px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 2px 0 5px rgba(0, 255, 0, 0.1); /* Reduced glow */
+    z-index: 1000;
+    padding: 20px 0;
+    overflow-y: auto;
+    animation: slideInLeft 0.8s ease-out;
+    border-right: 2px solid #00ff00; /* Terminal border */
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+nav.sidebar h1 {
+    color: #00ff00;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    font-weight: 700;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+nav.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav.sidebar li {
+    margin: 15px 0;
+    animation: fadeInUp 0.6s ease-out both;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+nav.sidebar a {
+    color: #00ff00;
+    text-decoration: none;
+    display: block;
+    padding: 15px 25px;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    text-shadow: 0 0 3px #00ff00; /* Reduced glow */
+}
+
+nav.sidebar a:hover, nav.sidebar a.active {
+    background: rgba(0, 255, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-left-color: #00ff00;
+    box-shadow: inset 0 0 5px #00ff00; /* Reduced inner glow */
+    transform: translateX(10px);
+}
+
+main {
+    margin-left: 300px;
+    margin-top: 100px;
+    padding: 30px;
+    background: #000000;
+    min-height: 100vh;
+    animation: fadeIn 1.2s ease-in 0.3s both;
+}
+
+section {
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(10, 10, 10, 0.9); /* Near-black for terminal window */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid #00ff00; /* Green border like terminal frame */
+    border-radius: 0; /* Sharp corners for CMD vibe */
+    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.1), inset 0 0 10px rgba(0, 255, 0, 0.05); /* Reduced outer/inner glow */
+    animation: zoomIn 0.8s ease-out both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 255, 0, 0.15), inset 0 0 15px rgba(0, 255, 0, 0.1); /* Slightly increased on hover but still reduced */
+}
+
+h1, h2 {
+    color: #ff0000;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-shadow: 0 0 5px #ff0000; /* Kept for headings */
+}
+
+h2 {
+    font-size: 1.5em;
+    border-bottom: 2px solid #00ff00;
+    padding-bottom: 10px;
+}
+
+button {
+    background: linear-gradient(45deg, #00ff00, #008000); /* Green gradient for CMD buttons */
+    color: #000000; /* Black text for contrast */
+    border: 2px solid #00ff00;
+    padding: 15px 30px;
+    cursor: pointer;
+    margin: 10px 5px;
+    border-radius: 0; /* Sharp for terminal style */
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 255, 0, 0.1); /* Reduced glow */
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    text-transform: uppercase; /* CMD-like caps */
+}
+
+button:hover {
+    background: linear-gradient(45deg, #008000, #004000);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.15); /* Reduced glow */
+}
+
+button:active {
+    transform: translateY(0) scale(1);
+}
+
+button.loading {
+    cursor: wait;
+}
+
+button.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    border: 2px solid #000000;
+    border-top: 2px solid #00ff00;
+    border-radius: 0; /* Square spinner for CMD feel */
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 255, 0, 0.1); /* Reduced glow */
+    margin-bottom: 20px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+th, td {
+    border: 1px solid #00ff00;
+    padding: 12px;
+    text-align: left;
+    transition: background 0.3s ease;
+}
+
+th {
+    background: rgba(0, 255, 0, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    font-weight: 600;
+    color: #00ff00;
+    text-shadow: 0 0 3px #00ff00; /* Reduced glow */
+}
+
+tr:hover {
+    background: rgba(0, 255, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: inset 0 0 3px #00ff00; /* Reduced inner glow */
+}
+
+#simulationResults, #explanationResults {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.05); /* Reduced inner glow */
+    animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.alert {
+    color: #ff0000; /* Red for alerts, contrasting green */
+    font-weight: bold;
+    animation: pulse 1s infinite;
+    text-shadow: 0 0 3px #ff0000; /* Reduced glow */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.success {
+    color: #00ff00; /* Green for success */
+    text-shadow: 0 0 3px #00ff00; /* Reduced glow */
+}
+
+#autoFillField {
+    width: 100%;
+    height: 120px;
+    margin-top: 10px;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    padding: 10px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+    box-shadow: inset 0 0 3px rgba(0, 255, 0, 0.05); /* Reduced inner glow */
+}
+
+#autoFillField:focus {
+    border-color: #00ff00;
+    box-shadow: 0 0 5px #00ff00, inset 0 0 5px rgba(0, 255, 0, 0.1); /* Reduced glow */
+    animation: blink 1s infinite; /* Cursor blink effect */
+}
+
+@keyframes blink {
+    0%, 50% { border-color: #00ff00; }
+    51%, 100% { border-color: transparent; }
+}
+
+#reportContent {
+    margin-top: 20px;
+}
+
+.chart-container {
+    display: inline-block;
+    width: 45%;
+    margin: 10px;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    padding: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.05); /* Reduced inner glow */
+    animation: fadeInUp 0.8s ease-out both;
+}
+
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    font-family: inherit;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+    box-shadow: inset 0 0 3px rgba(0, 255, 0, 0.05); /* Reduced inner glow */
+}
+
+input[type="text"]:focus, input[type="file"]:focus {
+    border-color: #00ff00;
+    box-shadow: 0 0 5px #00ff00, inset 0 0 5px rgba(0, 255, 0, 0.1); /* Reduced glow */
+    animation: blink 1s infinite;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #00ff00;
+    margin-left: 300px;
+    margin-top: 100px;
+    font-size: 0.9em;
+    animation: fadeIn 1s ease-in 1s both;
+    border-top: 2px solid #00ff00;
+    text-shadow: 0 0 3px #00ff00; /* Reduced glow */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+    .top-nav ul {
+        display: none;
+    }
+    .hamburger {
+        display: block;
+    }
+    nav.sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+}
+
+/* Chatbot Portal Styles */
+.chatbot-portal {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.1), inset 0 0 10px rgba(0, 255, 0, 0.05);
+    display: none; /* Hidden by default, shown via JS */
+    flex-direction: column;
+    z-index: 1002;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.chat-header {
+    background: rgba(0, 255, 0, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #00ff00;
+    padding: 10px 15px;
+    font-weight: 600;
+    text-shadow: 0 0 3px #00ff00;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #00ff00;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #00ff00;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff0000;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.9);
+    color: #00ff00;
+    font-family: inherit;
+    line-height: 1.4;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 0;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message.bot {
+    background: rgba(0, 255, 0, 0.1);
+    border-left: 4px solid #00ff00;
+    align-self: flex-start;
+}
+
+.message.user {
+    background: rgba(0, 0, 0, 0.8);
+    border-right: 4px solid #00ff00;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #00ff00;
+    background: rgba(10, 10, 10, 0.9);
+}
+
+#chatInput {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    border-radius: 0;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+#chatInput:focus {
+    border-color: #00ff00;
+    box-shadow: 0 0 5px #00ff00;
+    animation: blink 1s infinite;
+}
+
+#sendBtn {
+    background: linear-gradient(45deg, #00ff00, #008000);
+    color: #000000;
+    border: 1px solid #00ff00;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    margin-left: 5px;
+}
+
+#sendBtn:hover {
+    background: linear-gradient(45deg, #008000, #004000);
+    transform: scale(1.05);
+}
+
+/* Chatbot Icon (existing, but ensure it's clickable) */
+.chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 255, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1003;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 255, 0, 0.1);
+}
+
+.chatbot-icon:hover {
+    background: rgba(0, 255, 0, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.15);
+}
+
+.chatbot-icon i {
+    color: #00ff00;
+    font-size: 1.5em;
+    text-shadow: 0 0 3px #00ff00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chatbot-portal {
+        width: 90%;
+        height: 400px;
+        bottom: 10px;
+        right: 10px;
+    }
+    .chatbot-icon {
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+div.scrollmenu {
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+
+.containeer {
+            width: 300px;
+            height: 150px;
+            border: 2px solid #000;
+            margin: 20px;
+            padding: 10px;
+            overflow-x: scroll; /* Horizontal scroll */
+            overflow-y: scroll; /* Vertical scroll */
+        }
+
+        .conteent {
+            width: 500px; 
+            height: 300px;
+            background-color: rgb(143, 226, 143);
+            padding: 20px;
+        }
+
+        #blockchainTableWrapper {
+    max-height: 120px;
+    overflow-y: auto;
+    border: 2px solid #00ff00;
+    margin-top: 10px;
+}
+
+.export-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.export-popup {
+    background: #1a1a1a;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    min-width: 300px;
+    box-shadow: 0 0 20px #00ff00;
+}
+
+.export-popup h3 {
+    color: #00ff00;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.export-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: #00ff00;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.export-btn:hover {
+    background: #00cc00;
+    box-shadow: 0 0 15px #00ff00;
+    transform: scale(1.05);
+}
+
+.close-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #333;
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    background: #ff0000;
+    color: #000;
+}

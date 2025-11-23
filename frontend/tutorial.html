@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CYBERSECURE Tutorial</title>
+<style>
+  /* Reset */
+  body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #00ff00;
+    font-family: 'Fira Code', monospace, monospace;
+    line-height: 1.5;
+    height: 100%;
+  }
+  h2 {
+    text-align: center;
+    margin: 30px 0 10px 0;
+    font-weight: 700;
+    font-size: 2em;
+    text-shadow: 0 0 6px #00ff00;
+  }
+  #tutorial {
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+    padding: 0 20px 50px 20px;
+  }
+  #tutorialFlowchart {
+    border-left: 3px solid #00ff00;
+    margin-left: 40px;
+    padding-left: 30px;
+    position: relative;
+  }
+  /* Vertical line connecting steps */
+  #tutorialFlowchart::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #00ff00;
+    opacity: 0.3;
+    z-index: 0;
+  }
+  .tutorial-step {
+    position: relative;
+    margin-bottom: 60px;
+    padding-left: 35px;
+    background: rgba(0,20,0,0.6);
+    border-left: 3px solid transparent;
+    box-shadow: 0 0 12px #006600 inset;
+    opacity: 0;
+    transform: translateX(-25px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    border-radius: 0;
+  }
+  .tutorial-step.active {
+    opacity: 1;
+    transform: translateX(0);
+    border-left-color: #00ff00;
+    box-shadow: 0 0 20px #00ff00 inset;
+    z-index: 1;
+  }
+  .step-number {
+    position: absolute;
+    left: -40px;
+    top: 8px;
+    background: #00ff00;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.4em;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff00;
+    user-select: none;
+  }
+  .step-content h3 {
+    margin-top: 5px;
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 4px #00ff00;
+  }
+  .step-content p {
+    font-size: 1em;
+    margin-bottom: 12px;
+  }
+  .step-content pre {
+    background: #002200;
+    border: 1px solid #00ff00;
+    padding: 12px;
+    font-family: 'Fira Code', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 20px;
+    border-radius: 0;
+  }
+  .step-number {
+  position: absolute;
+  left: -40px;
+  top: 40px; /* increase from 8px to 40px to push below navbar */
+  background: #00ff00;
+  color: #000;
+  font-weight: 700;
+  font-size: 1.4em;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ff00;
+  user-select: none;
+  z-index: 5;
+}
+
+  .step-content button {
+    background: linear-gradient(45deg, #00ff00, #008000);
+    border: 2px solid #00ff00;
+    color: #000;
+    padding: 10px 26px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: 0;
+    margin-right: 12px;
+    box-shadow: 0 0 10px #00ff00;
+    transition: background 0.2s ease, box-shadow 0.3s ease;
+  }
+  .step-content button:hover {
+    background: linear-gradient(45deg, #008000, #004000);
+    box-shadow: 0 0 20px #00ff00;
+  }
+  .step-content button:disabled {
+    background: #003300;
+    border-color: #005500;
+    color: #005500;
+    cursor: default;
+    box-shadow: none;
+  }
+  a {
+      text-decoration:none;
+   }
+  /* Responsive */
+  @media (max-width: 480px) {
+    #tutorial {
+      max-width: 90vw;
+      margin: 20px auto 40px auto;
+    }
+    #tutorialFlowchart {
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+    .step-number {
+      left: -32px;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      font-size: 1.1em;
+    }
+  }
+  /* Header NavBar styles */
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #00ff00;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+  }
+  .top-nav h1 {
+    color: #00ff00;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-shadow: 0 0 5px #00ff00;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .top-nav h1 i {
+    color: #00ff00;
+  }
+  .top-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0; padding: 0;
+  }
+  .top-nav ul li a {
+    color: #00ff00;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+  .top-nav ul li a:hover {
+    color: #00dd00;
+  }
+  /* Icon in navbar */
+  .top-nav ul li a i {
+    font-size: 1.1rem;
+  }
+  /* Page content margin to avoid nav overlap */
+  body > h2 {
+    margin-top: 80px;
+  }
+  #tutorial {
+    margin-top: 0;
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Header Nav Bar -->
+  <nav class="top-nav">
+   <a href="index.html" border=null> <h1><i class="fas fa-shield-alt" ></i> CYBERSECURE</h1></a>
+    <!-- <ul>
+      <li><a href="#login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+      <li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+      <li><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
+      <li><a href="#tutorial"><i class="fas fa-book"></i> Tutorial</a></li>
+    </ul> -->
+  </nav>
+<br><br><br><br>
+<div>
+  <h2>CYBERSECURE: Interactive Tutorial</h2>
+  <section id="tutorial">
+    <div id="tutorialFlowchart">
+      <div class="tutorial-step active" data-step="1">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Upload Network Data File</h3>
+          <p>Choose a CSV or JSON file containing your network flow data.</p>
+          <pre><code>Example: sample_network_data.csv</code></pre>
+          <button id="nextBtn1">Next &gt;</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="2">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Process and Segregate Data</h3>
+          <p>Click "Upload and Process" to parse the file and separate benign from intrusion data.</p>
+          <pre><code>Output: Displays first 10 rows of segregated data</code></pre>
+          <button id="prevBtn2">&lt; Previous</button>
+          <button id="nextBtn2">Next &gt;</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="3">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Generate Data Reports</h3>
+          <p>Click "Generate Report" to see visual charts for traffic distribution.</p>
+          <pre><code>Example Chart: Pie chart showing 'Benign' vs 'Intrusion'</code></pre>
+          <button id="prevBtn3">&lt; Previous</button>
+          <button id="nextBtn3">Next &gt;</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="4">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Verify Blockchain Integrity</h3>
+          <p>Check the threat log chain hashes for data integrity validation.</p>
+          <pre><code>Verified chain shows "Yes" for valid entries</code></pre>
+          <button id="prevBtn4">&lt; Previous</button>
+          <button id="nextBtn4">Next &gt;</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="5">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h3>Run Real-Time Simulation</h3>
+          <p>Start a live simulation of network flows and watch detection results.</p>
+          <pre><code>Alerts will be highlighted as 'Intrusion' and actions shown</code></pre>
+          <button id="prevBtn5">&lt; Previous</button>
+          <button id="nextBtn5">Next &gt;</button>
+        </div>
+      </div>
+
+      <div class="tutorial-step" data-step="6">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <h3>XAI Explanation (SHAP)</h3>
+          <p>Enter flow features to get trusted automated explanation of predictions.</p>
+          <pre><code>Example input: 0,1,45,9,0,... (41 features)</code></pre>
+          <button id="prevBtn6">&lt; Previous</button>
+          <button id="finishBtn">Finish</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  let currentStep = 1;
+  const totalSteps = document.querySelectorAll('.tutorial-step').length;
+
+  function showStep(step) {
+    if(step < 1) step = 1;
+    if(step > totalSteps) step = totalSteps;
+    document.querySelectorAll('.tutorial-step').forEach(el => el.classList.remove('active'));
+    const stepToShow = document.querySelector(`.tutorial-step[data-step="${step}"]`);
+    if(stepToShow){
+      stepToShow.classList.add('active');
+      currentStep = step;
+      stepToShow.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
+  function nextStep() {
+    showStep(currentStep + 1);
+  }
+  function prevStep() {
+    showStep(currentStep -1);
+  }
+  function finishTutorial() {
+    alert('Tutorial completed! You are now ready to use CYBERSECURE.');
+    showStep(1);
+  }
+
+  document.getElementById('nextBtn1').onclick = nextStep;
+  document.getElementById('nextBtn2').onclick = nextStep;
+  document.getElementById('nextBtn3').onclick = nextStep;
+  document.getElementById('nextBtn4').onclick = nextStep;
+  document.getElementById('nextBtn5').onclick = nextStep;
+
+  document.getElementById('prevBtn2').onclick = prevStep;
+  document.getElementById('prevBtn3').onclick = prevStep;
+  document.getElementById('prevBtn4').onclick = prevStep;
+  document.getElementById('prevBtn5').onclick = prevStep;
+  document.getElementById('prevBtn6').onclick = prevStep;
+
+  document.getElementById('finishBtn').onclick = finishTutorial;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    showStep(1);
+  });
+</script>
+</body>
+</html>
