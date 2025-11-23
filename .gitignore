@@ -1,4 +1,11 @@
-*.csv
-.venv/
+RAG Model/
+rough/
 venv/
-data/processed_unsw/
+*.csv
+main1.py
+trained_model.pkl
+unsw_preprocessor.pkl
+unsw_trained_model.pkl
+models/
+rough/
+exports/
